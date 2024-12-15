@@ -10,6 +10,7 @@ import Image from 'next/image'
 export default function ImageUpload() {
   const [image, setImage] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,6 +23,7 @@ export default function ImageUpload() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     if (!image) return
 
     const formData = new FormData()
@@ -58,12 +60,12 @@ export default function ImageUpload() {
         />
       </div>
       {preview && (
-        <div className="mt-4">
+        <div className="mt-4 flex items-center justify-center">
           <Image src={preview} className='rounded' alt="Preview" width={700} height={700} />
         </div>
       )}
       {image && (
-        <Button type="submit">Identify Animal</Button>
+        <Button type="submit">{loading ? "loading" : "Identify Animal"}</Button>
       )}
     </form>
   )
